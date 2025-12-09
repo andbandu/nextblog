@@ -3,21 +3,32 @@
     "slug": "hello-world",
     "title": "Hello World",
     "content": "Welcome to my new blog! This is the first post.",
-    "tags": ["welcome", "general"],
+    "tags": [
+      "welcome",
+      "general"
+    ],
     "date": "2024-05-20T10:00:00Z"
   },
   {
     "slug": "nextjs-tutorial",
     "title": "Getting Started with Next.js",
     "content": "Next.js is a React framework for production. It makes building full-stack React apps simple.",
-    "tags": ["nextjs", "react", "tutorial"],
+    "tags": [
+      "nextjs",
+      "react",
+      "tutorial"
+    ],
     "date": "2024-05-21T14:30:00Z"
   },
   {
     "slug": "tailwind-css",
     "title": "Why Tailwind CSS?",
     "content": "Tailwind CSS is a utility-first CSS framework that can help you build designs directly in your markup.",
-    "tags": ["css", "tailwind", "design"],
+    "tags": [
+      "css",
+      "tailwind",
+      "design"
+    ],
     "date": "2024-05-22T09:15:00Z"
   }
 ]

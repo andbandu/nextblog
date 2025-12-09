@@ -35,8 +35,8 @@ export default function Editor() {
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                         className={`p-2 rounded-md transition-colors ${isSidebarOpen
-                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
-                                : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
+                            ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                            : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
                             }`}
                         title="Toggle Settings"
                     >
