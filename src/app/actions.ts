@@ -37,7 +37,7 @@ export async function createPostAction(formData: FormData) {
         date: new Date().toISOString(),
     };
 
-    savePost(post);
+    await savePost(post);
     revalidatePath('/');
     redirect(`/blog/${slug}`);
 }

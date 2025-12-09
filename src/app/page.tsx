@@ -2,8 +2,8 @@ import Image from "next/image";
 import { getPosts } from "@/lib/data";
 import PostCard from "@/components/PostCard";
 
-export default function Home() {
-  const posts = getPosts();
+export default async function Home() {
+  const posts = await getPosts();
 
   return (
     <div className="space-y-12">
