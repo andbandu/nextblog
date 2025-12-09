@@ -41,3 +41,9 @@ export async function createPostAction(formData: FormData) {
     revalidatePath('/');
     redirect(`/blog/${slug}`);
 }
+
+export async function deletePostAction(slug: string) {
+    await import('@/lib/data').then(mod => mod.deletePost(slug));
+    revalidatePath('/');
+    redirect('/admin/posts');
+}

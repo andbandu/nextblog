@@ -62,3 +62,12 @@ export async function getAllTags(): Promise<string[]> {
     return [];
   }
 }
+
+export async function deletePost(slug: string): Promise<void> {
+  try {
+    await pool.query('DELETE FROM posts WHERE slug = $1', [slug]);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete post');
+  }
+}

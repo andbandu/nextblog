@@ -49,9 +49,10 @@ export default async function PostPage({ params }: PostPageProps) {
                 </h1>
             </header>
 
-            <div className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed">
-                {post.content}
-            </div>
+            <div
+                className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+            />
         </article>
     );
 }

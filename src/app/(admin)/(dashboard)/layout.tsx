@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, FileText, Plus, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Plus, LogOut, ExternalLink } from "lucide-react";
 import { logoutAction } from "@/app/actions";
 
 export default function AdminLayout({
@@ -39,6 +39,15 @@ export default function AdminLayout({
                             <Plus size={14} />
                         </Link>
                     </div>
+
+                    <Link
+                        href="/"
+                        target="_blank"
+                        className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                        <ExternalLink size={18} />
+                        View Site
+                    </Link>
                 </nav>
 
                 <div className="p-4 border-t border-gray-200 dark:border-gray-800">

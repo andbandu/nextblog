@@ -47,11 +47,10 @@ export default async function AdminPostsPage() {
                                     </div>
                                 </div>
                                 <Link
-                                    href={`/blog/${post.slug}`}
-                                    target="_blank"
+                                    href={`/admin/posts/${post.slug}`}
                                     className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                                 >
-                                    View
+                                    Edit
                                 </Link>
                             </div>
                         </li>

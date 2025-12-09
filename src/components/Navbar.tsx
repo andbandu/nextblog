@@ -15,15 +15,6 @@ export default async function Navbar() {
                     <Link href="/" className="text-sm font-medium hover:text-blue-600 transition-colors">
                         Home
                     </Link>
-                    {isLoggedIn ? (
-                        <Link href="/admin" className="text-sm font-medium hover:text-blue-600 transition-colors">
-                            Admin
-                        </Link>
-                    ) : (
-                        <Link href="/login" className="text-sm font-medium hover:text-blue-600 transition-colors">
-                            Login
-                        </Link>
-                    )}
                 </div>
             </div>
         </nav>
