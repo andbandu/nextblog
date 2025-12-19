@@ -1,4 +1,4 @@
-import { getPostsByTag, getAllTags } from "@/lib/data";
+import { getPostsByTag, getTags } from "@/lib/data";
 import PostCard from "@/components/PostCard";
 import { notFound } from "next/navigation";
 
@@ -9,7 +9,7 @@ interface TagPageProps {
 }
 
 export async function generateStaticParams() {
-    const tags = await getAllTags();
+    const tags = await getTags();
     return tags.map((tag) => ({
         tag: tag,
     }));

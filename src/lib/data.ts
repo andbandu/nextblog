@@ -6,6 +6,8 @@ export interface Post {
   content: string;
   tags: string[];
   date: string;
+  feature_image?: string;
+  excerpt?: string;
 }
 
 export async function getPosts(): Promise<Post[]> {
@@ -18,13 +20,13 @@ export async function getPosts(): Promise<Post[]> {
   }
 }
 
-export async function getPost(slug: string): Promise<Post | undefined> {
+export async function getPost(slug: string): Promise<Post | null> {
   try {
     const { rows } = await pool.query('SELECT * FROM posts WHERE slug = $1', [slug]);
-    return rows[0];
+    return rows[0] || null;
   } catch (error) {
     console.error('Database Error:', error);
-    return undefined;
+    return null;
   }
 }
 
@@ -41,11 +43,11 @@ export async function getPostsByTag(tag: string): Promise<Post[]> {
 export async function savePost(post: Post): Promise<void> {
   try {
     await pool.query(
-      `INSERT INTO posts (slug, title, content, tags, date)
-       VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO posts (slug, title, content, tags, date, feature_image, excerpt)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        ON CONFLICT (slug) DO UPDATE 
-       SET title = $2, content = $3, tags = $4, date = $5`,
-      [post.slug, post.title, post.content, post.tags, post.date]
+       SET title = $2, content = $3, tags = $4, date = $5, feature_image = $6, excerpt = $7`,
+      [post.slug, post.title, post.content, post.tags, post.date, post.feature_image, post.excerpt]
     );
   } catch (error) {
     console.error('Database Error:', error);
@@ -53,14 +55,10 @@ export async function savePost(post: Post): Promise<void> {
   }
 }
 
-export async function getAllTags(): Promise<string[]> {
-  try {
-    const { rows } = await pool.query('SELECT DISTINCT unnest(tags) as tag FROM posts');
-    return rows.map(row => row.tag).sort();
-  } catch (error) {
-    console.error('Database Error:', error);
-    return [];
-  }
+export async function getTags(): Promise<string[]> {
+  const posts = await getPosts();
+  const tags = new Set(posts.flatMap((post) => post.tags));
+  return Array.from(tags);
 }
 
 export async function deletePost(slug: string): Promise<void> {

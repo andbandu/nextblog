@@ -27,6 +27,15 @@ export default async function PostPage({ params }: PostPageProps) {
     return (
         <article className="prose prose-lg dark:prose-invert max-w-none">
             <header className="mb-8 not-prose">
+                {post.feature_image && (
+                    <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-8 shadow-sm">
+                        <img
+                            src={post.feature_image}
+                            alt={post.title}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                )}
                 <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <time dateTime={post.date}>
                         {format(new Date(post.date), "MMMM d, yyyy")}
@@ -47,6 +56,11 @@ export default async function PostPage({ params }: PostPageProps) {
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 text-gray-900 dark:text-gray-100">
                     {post.title}
                 </h1>
+                {post.excerpt && (
+                    <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-8 font-serif italic border-l-4 border-gray-200 dark:border-gray-700 pl-4">
+                        {post.excerpt}
+                    </p>
+                )}
             </header>
 
             <div

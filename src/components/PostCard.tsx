@@ -9,6 +9,16 @@ interface PostCardProps {
 export default function PostCard({ post }: PostCardProps) {
     return (
         <article className="group relative flex flex-col space-y-2">
+            {post.feature_image && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-4">
+                    <img
+                        src={post.feature_image}
+                        alt={post.title}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                    />
+                </div>
+            )}
+
             <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <time dateTime={post.date}>
                     {format(new Date(post.date), 'MMMM d, yyyy')}
@@ -31,7 +41,7 @@ export default function PostCard({ post }: PostCardProps) {
             </h2>
 
             <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
-                {post.content}
+                {post.excerpt || post.content.replace(/<[^>]*>?/gm, '').slice(0, 300) + (post.content.length > 300 ? '...' : '')}
             </p>
 
             <div className="text-sm font-medium text-blue-600 dark:text-blue-400 pt-2">

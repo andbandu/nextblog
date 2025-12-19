@@ -26,6 +26,8 @@ export async function createPostAction(formData: FormData) {
     const slug = formData.get('slug') as string;
     const content = formData.get('content') as string;
     const tagsString = formData.get('tags') as string;
+    const featureImage = formData.get('feature_image') as string;
+    const excerpt = formData.get('excerpt') as string;
 
     const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
 
@@ -35,11 +37,13 @@ export async function createPostAction(formData: FormData) {
         content,
         tags,
         date: new Date().toISOString(),
+        feature_image: featureImage || undefined,
+        excerpt: excerpt || undefined,
     };
 
     await savePost(post);
     revalidatePath('/');
-    redirect(`/blog/${slug}`);
+    redirect('/admin/posts');
 }
 
 export async function deletePostAction(slug: string) {

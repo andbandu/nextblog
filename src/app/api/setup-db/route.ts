@@ -9,7 +9,9 @@ export async function GET() {
         title TEXT NOT NULL,
         content TEXT NOT NULL,
         tags TEXT[] NOT NULL,
-        date TIMESTAMP WITH TIME ZONE NOT NULL
+        date TIMESTAMP WITH TIME ZONE NOT NULL,
+        feature_image TEXT,
+        excerpt TEXT
       );
     `);
     return NextResponse.json({ message: 'Database setup successfully' });
