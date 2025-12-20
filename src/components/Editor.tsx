@@ -1,16 +1,23 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, PanelRightClose, PanelRightOpen, Settings, ExternalLink, Trash2, Bold, Italic, Heading2, Heading3, Quote, Link as LinkIcon, Image as ImageIcon, X, Plus, Loader2 } from 'lucide-react';
+import {
+    ArrowLeft, PanelRightClose, PanelRightOpen, Settings, ExternalLink,
+    Trash2, Bold, Italic, Heading2, Heading3, Quote, Link as LinkIcon,
+    Image as ImageIcon, X, Plus, Loader2, Video, Bookmark, MousePointerClick
+} from 'lucide-react';
 import { createPostAction, deletePostAction } from '@/app/actions';
 
 
 import { useEditor, EditorContent } from '@tiptap/react';
-import { BubbleMenu } from '@tiptap/react/menus';
+import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
-import TiptapLink from '@tiptap/extension-link';
+import LinkExtension from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
+import ImageExtension from '@tiptap/extension-image';
+import YoutubeExtension from '@tiptap/extension-youtube';
+import FloatingMenuExtension from '@tiptap/extension-floating-menu';
 
 interface EditorProps {
     initialPost?: {
@@ -39,15 +46,26 @@ export default function Editor({ initialPost }: EditorProps) {
                     levels: [1, 2, 3],
                 },
             }),
-            TiptapLink.configure({
+            LinkExtension.configure({
                 openOnClick: false,
                 HTMLAttributes: {
-                    class: 'text-blue-600 hover:underline cursor-pointer',
+                    class: 'text-blue-500 hover:underline',
                 },
             }),
             Placeholder.configure({
-                placeholder: 'Begin writing your post...',
+                placeholder: 'Write your story...',
             }),
+            ImageExtension.configure({
+                HTMLAttributes: {
+                    class: 'rounded-lg max-w-full my-4 shadow-sm',
+                },
+            }),
+            YoutubeExtension.configure({
+                HTMLAttributes: {
+                    class: 'w-full aspect-video rounded-lg my-4 shadow-sm',
+                },
+            }),
+            FloatingMenuExtension,
         ],
         content: initialPost?.content || '',
         editorProps: {
@@ -108,8 +126,89 @@ export default function Editor({ initialPost }: EditorProps) {
         }
     };
 
+    const addImage = useCallback(() => {
+        const url = window.prompt('Enter image URL');
+        if (url) {
+            editor?.chain().focus().setImage({ src: url }).run();
+        }
+    }, [editor]);
+
+    const addYoutube = useCallback(() => {
+        const url = window.prompt('Enter YouTube URL');
+        if (url) {
+            editor?.commands.setYoutubeVideo({ src: url });
+        }
+    }, [editor]);
+
+    const addButton = useCallback(() => {
+        const url = window.prompt('Enter link for button');
+        const text = window.prompt('Enter button text');
+        if (url && text) {
+            editor?.chain().focus().insertContent(`<a href="${url}" class="px-4 py-2 bg-blue-600 text-white rounded-md inline-block no-underline hover:bg-blue-700 transition-colors my-2 font-medium">${text}</a>`).run();
+        }
+    }, [editor]);
+
+    const addBookmark = useCallback(() => {
+        const url = window.prompt('Enter URL to bookmark');
+        const text = window.prompt('Enter description');
+        if (url && text) {
+            editor?.chain().focus().insertContent(`
+    <a href="${url}" target="_blank" rel="noopener noreferrer" class="block p-4 my-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg no-underline group hover:border-blue-500 transition-colors">
+                    <div class="flex items-center gap-2 mb-1 text-sm font-medium text-gray-500 uppercase tracking-wider">
+                        <span class="text-blue-500">🔖</span>
+                        Bookmark
+                    </div>
+                    <div class="font-medium text-lg text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">
+                        ${text}
+                    </div>
+                    <div class="text-sm text-gray-400 truncate mt-1">
+                        ${url}
+                    </div>
+                </a>
+    `).run();
+        }
+    }, [editor]);
+
+    if (!editor) {
+        return null;
+    }
+
     return (
         <div className="flex flex-col h-screen bg-white dark:bg-gray-950">
+            {/* Floating Menu */}
+            {editor && (
+                <FloatingMenu
+                    editor={editor}
+                    tippyoptions={{ duration: 100, placement: 'left', offset: [100, 100] }}
+                    className="flex items-center"
+                >
+                    <div className="relative group">
+                        <button
+                            className="p-3 rounded-full border border-gray-200 dark:border-gray-800 text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            aria-label="Add content"
+                        >
+                            <Plus size={24} />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        <div className="absolute left-8 top-0 hidden group-hover:block w-48 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-800 p-1 z-50 overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
+                            <button onClick={addImage} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-left">
+                                <ImageIcon size={16} /> Image
+                            </button>
+                            <button onClick={addYoutube} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-left">
+                                <Video size={16} /> Video
+                            </button>
+                            <button onClick={addButton} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-left">
+                                <MousePointerClick size={16} /> Button
+                            </button>
+                            <button onClick={addBookmark} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-left">
+                                <Bookmark size={16} /> Bookmark
+                            </button>
+                        </div>
+                    </div>
+                </FloatingMenu>
+            )}
+
             {/* Navbar */}
             <header className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 z-10">
                 <div className="flex items-center gap-4">
@@ -318,8 +417,8 @@ export default function Editor({ initialPost }: EditorProps) {
                                     placeholder="Write a short summary..."
                                     rows={4}
                                     className={`w-full bg-white dark:bg-gray-800 border rounded-md px-3 py-2 text-sm focus:outline-none transition-colors ${excerpt.length > 300
-                                            ? 'border-red-500 focus:border-red-500'
-                                            : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                                        ? 'border-red-500 focus:border-red-500'
+                                        : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
                                         }`}
                                 />
                                 <div className="flex justify-between mt-1">

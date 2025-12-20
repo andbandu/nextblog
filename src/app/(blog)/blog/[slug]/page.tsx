@@ -64,7 +64,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </header>
 
             <div
-                className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed"
+                className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed gh-content"
                 dangerouslySetInnerHTML={{ __html: post.content }}
             />
         </article>
