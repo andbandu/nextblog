@@ -179,7 +179,7 @@ export default function Editor({ initialPost }: EditorProps) {
             {editor && (
                 <FloatingMenu
                     editor={editor}
-                    tippyoptions={{ duration: 100, placement: 'left', offset: [100, 100] }}
+                    options={{ placement: 'left', offset: { mainAxis: 20, crossAxis: 0 } }}
                     className="flex items-center"
                 >
                     <div className="relative group">
