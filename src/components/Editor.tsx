@@ -191,7 +191,7 @@ export default function Editor({ initialPost }: EditorProps) {
                         </button>
 
                         {/* Dropdown Menu */}
-                        <div className="absolute left-8 top-0 hidden group-hover:block w-48 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-800 p-1 z-50 overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
+                        <div className="absolute left-12 top-12 hidden group-hover:block w-48 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-800 p-1 z-50 overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
                             <button onClick={addImage} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-left">
                                 <ImageIcon size={16} /> Image
                             </button>
@@ -434,7 +434,7 @@ export default function Editor({ initialPost }: EditorProps) {
                             {initialPost && (
                                 <div className="pt-4">
                                     <Link
-                                        href={`/blog/${initialPost.slug}`}
+                                        href={`/${initialPost.slug}`}
                                         target="_blank"
                                         className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                     >
