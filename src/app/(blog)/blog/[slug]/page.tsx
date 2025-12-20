@@ -2,6 +2,8 @@ import { getPost, getPosts } from "@/lib/data";
 import { format } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import styles from "./page.module.css";
+import Image from "next/image";
 
 interface PostPageProps {
     params: Promise<{
@@ -24,48 +26,53 @@ export default async function PostPage({ params }: PostPageProps) {
         notFound();
     }
 
+    const { title, feature_image, excerpt, date, tags, content } = post;
+
     return (
-        <article className="prose prose-lg dark:prose-invert max-w-none">
-            <header className="mb-8 not-prose">
-                {post.feature_image && (
-                    <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-8 shadow-sm">
-                        <img
-                            src={post.feature_image}
-                            alt={post.title}
-                            className="object-cover w-full h-full"
-                        />
-                    </div>
-                )}
+        <article className={`prose prose-lg dark:prose-invert max-w-none ${styles.postArticle}`}>
+            <header className={`mb-8 not-prose ${styles.postHeader}`}>
                 <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                    <time dateTime={post.date}>
-                        {format(new Date(post.date), "MMMM d, yyyy")}
+                    <time dateTime={date}>
+                        {format(new Date(date), "MMMM d, yyyy")}
                     </time>
                     <span>•</span>
                     <div className="flex gap-1">
-                        {post.tags.map((tag) => (
+                        {tags.map((tag) => (
                             <Link
                                 key={tag}
                                 href={`/tags/${tag}`}
-                                className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                                className={`bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${styles.postTag}`}
                             >
                                 {tag}
                             </Link>
                         ))}
                     </div>
                 </div>
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 text-gray-900 dark:text-gray-100">
-                    {post.title}
+                <h1 className={styles.postTitle}>
+                    {title}
                 </h1>
-                {post.excerpt && (
-                    <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-8 font-serif italic border-l-4 border-gray-200 dark:border-gray-700 pl-4">
-                        {post.excerpt}
+                {excerpt && (
+                    <p className={styles.postExcerpt}>
+                        {excerpt}
                     </p>
+                )}
+                {feature_image && (
+                    <div className={`relative aspect-video w-full overflow-hidden rounded-xl mb-8 shadow-sm ${styles.postFeatureImage}`}>
+                        <Image
+                            src={feature_image}
+                            alt={title}
+                            fill
+                            priority // High priority because it's above the fold
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 1200px"
+                        />
+                    </div>
                 )}
             </header>
 
             <div
-                className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed gh-content"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                className={`whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed gh-content ${styles.postContent}`}
+                dangerouslySetInnerHTML={{ __html: content }}
             />
         </article>
     );
