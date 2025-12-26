@@ -1,5 +1,5 @@
 import { getPostsByTag, getTags } from "@/lib/data";
-import PostCard from "@/components/PostCard";
+import PostCard from "../../_components/PostCard";
 import { notFound } from "next/navigation";
 
 interface TagPageProps {

@@ -8,7 +8,7 @@ import {
     Image as ImageIcon, X, Plus, Loader2, Video, Bookmark, MousePointerClick
 } from 'lucide-react';
 import { createPostAction, deletePostAction } from '@/app/actions';
-import TagInput from '@/components/TagInput';
+import TagInput from './TagInput';
 import { Tag as TagType } from '@/lib/data';
 
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -416,6 +416,7 @@ export default function Editor({ initialPost, existingTags = [], mode = 'post', 
                                         existingTags={existingTags}
                                         initialSelected={initialPost?.tags}
                                         name="tags"
+                                        form="post-form"
                                     />
                                 </div>
                             )}

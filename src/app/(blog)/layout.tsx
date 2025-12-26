@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "./_components/Navbar";
+import Footer from "./_components/Footer";
 import { getSetting, SiteInfo } from "@/lib/data";
 import { Metadata } from 'next';
 

@@ -1,6 +1,6 @@
 import { isAuthenticated } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import Editor from '@/components/Editor';
+import Editor from '../../../_components/Editor';
 import { getTags } from '@/lib/data';
 import { createPostAction } from '@/app/actions';
 

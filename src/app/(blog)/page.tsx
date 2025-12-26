@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getPosts } from "@/lib/data";
-import PostCard from "@/components/PostCard";
+import PostCard from "./_components/PostCard";
 
 export default async function Home() {
   const posts = await getPosts();

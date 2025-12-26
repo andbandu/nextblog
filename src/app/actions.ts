@@ -34,14 +34,14 @@ export async function deleteTagAction(slug: string) {
 }
 
 export async function createPostAction(formData: FormData) {
-    const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
-    const content = formData.get('content') as string;
-    const tagsString = formData.get('tags') as string;
-    const featureImage = formData.get('feature_image') as string;
-    const excerpt = formData.get('excerpt') as string;
+    const title = (formData.get('title') as string) || '';
+    const slug = (formData.get('slug') as string) || '';
+    const content = (formData.get('content') as string) || '';
+    const tagsString = (formData.get('tags') as string) || '';
+    const featureImage = (formData.get('feature_image') as string) || '';
+    const excerpt = (formData.get('excerpt') as string) || '';
 
-    const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : [];
 
     const post: Post = {
         title,
@@ -65,10 +65,10 @@ export async function deletePostAction(slug: string) {
 }
 
 export async function createPageAction(formData: FormData) {
-    const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
-    const content = formData.get('content') as string;
-    const featureImage = formData.get('feature_image') as string;
+    const title = (formData.get('title') as string) || '';
+    const slug = (formData.get('slug') as string) || '';
+    const content = (formData.get('content') as string) || '';
+    const featureImage = (formData.get('feature_image') as string) || '';
 
     const page: Page = {
         title,

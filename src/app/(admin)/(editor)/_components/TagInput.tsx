@@ -8,9 +8,10 @@ interface TagInputProps {
     existingTags: TagType[];
     initialSelected?: string[];
     name?: string;
+    form?: string;
 }
 
-export default function TagInput({ existingTags, initialSelected = [], name = "tags" }: TagInputProps) {
+export default function TagInput({ existingTags, initialSelected = [], name = "tags", form }: TagInputProps) {
     const [selectedTags, setSelectedTags] = useState<string[]>(initialSelected);
     const [inputValue, setInputValue] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -82,7 +83,7 @@ export default function TagInput({ existingTags, initialSelected = [], name = "t
                     placeholder={selectedTags.length === 0 ? "Add tags..." : ""}
                     className="flex-1 bg-transparent border-none outline-none text-sm min-w-[120px] dark:text-gray-200"
                 />
-                <input type="hidden" name={name} value={selectedTags.join(',')} />
+                <input type="hidden" name={name} value={selectedTags.join(',')} form={form} />
             </div>
 
             {showSuggestions && (inputValue || filteredSuggestions.length > 0) && (

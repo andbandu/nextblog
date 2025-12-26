@@ -1,8 +1,6 @@
 import { getPage } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 interface PageProps {
     params: Promise<{

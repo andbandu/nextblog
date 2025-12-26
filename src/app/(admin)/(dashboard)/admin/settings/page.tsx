@@ -1,9 +1,9 @@
 import { isAuthenticated } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getSetting, NavLink, SiteInfo } from '@/lib/data';
-import NavigationManager from '@/components/NavigationManager';
-import BrandingManager from '@/components/BrandingManager';
-import SiteInfoManager from '@/components/SiteInfoManager';
+import NavigationManager from '../../../_components/NavigationManager';
+import BrandingManager from '../../../_components/BrandingManager';
+import SiteInfoManager from '../../../_components/SiteInfoManager';
 
 export default async function AdminSettingsPage() {
     const isLoggedIn = await isAuthenticated();

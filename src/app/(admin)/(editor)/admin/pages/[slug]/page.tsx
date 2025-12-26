@@ -1,6 +1,6 @@
 import { isAuthenticated } from '@/lib/auth';
 import { redirect, notFound } from 'next/navigation';
-import Editor from '@/components/Editor';
+import Editor from '../../../_components/Editor';
 import { getPage } from '@/lib/data';
 import { createPageAction, deletePageAction } from '@/app/actions';
 
