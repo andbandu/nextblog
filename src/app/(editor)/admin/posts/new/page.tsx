@@ -1,6 +1,8 @@
 import { isAuthenticated } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Editor from '@/components/Editor';
+import { getTags } from '@/lib/data';
+import { createPostAction } from '@/app/actions';
 
 export default async function NewPostPage() {
     const isLoggedIn = await isAuthenticated();
@@ -9,5 +11,9 @@ export default async function NewPostPage() {
         redirect('/login');
     }
 
-    return <Editor />;
+    const existingTags = await getTags();
+
+    return <Editor existingTags={existingTags} action={createPostAction} />;
 }
+
+

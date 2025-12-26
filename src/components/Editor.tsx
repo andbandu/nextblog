@@ -8,7 +8,8 @@ import {
     Image as ImageIcon, X, Plus, Loader2, Video, Bookmark, MousePointerClick
 } from 'lucide-react';
 import { createPostAction, deletePostAction } from '@/app/actions';
-
+import TagInput from '@/components/TagInput';
+import { Tag as TagType } from '@/lib/data';
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus';
@@ -24,13 +25,18 @@ interface EditorProps {
         title: string;
         slug: string;
         content: string;
-        tags: string[];
+        tags?: string[];
         feature_image?: string;
         excerpt?: string;
     };
+    existingTags?: TagType[];
+    mode?: 'post' | 'page';
+    action: (formData: FormData) => Promise<void>;
+    deleteAction?: (slug: string) => Promise<void>;
 }
 
-export default function Editor({ initialPost }: EditorProps) {
+export default function Editor({ initialPost, existingTags = [], mode = 'post', action, deleteAction }: EditorProps) {
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [content, setContent] = useState(initialPost?.content || '');
     const [featureImage, setFeatureImage] = useState(initialPost?.feature_image || '');
@@ -79,8 +85,8 @@ export default function Editor({ initialPost }: EditorProps) {
     });
 
     const handleDelete = async () => {
-        if (initialPost?.slug && confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
-            await deletePostAction(initialPost.slug);
+        if (initialPost?.slug && deleteAction && confirm(`Are you sure you want to delete this ${mode}? This action cannot be undone.`)) {
+            await deleteAction(initialPost.slug);
         }
     };
 
@@ -180,6 +186,11 @@ export default function Editor({ initialPost }: EditorProps) {
                 <FloatingMenu
                     editor={editor}
                     options={{ placement: 'left', offset: { mainAxis: 20, crossAxis: 0 } }}
+                    shouldShow={({ state }) => {
+                        const { selection } = state;
+                        const { $from, empty } = selection;
+                        return empty && $from.parent.content.size === 0;
+                    }}
                     className="flex items-center"
                 >
                     <div className="relative group">
@@ -250,7 +261,7 @@ export default function Editor({ initialPost }: EditorProps) {
             <div className="flex flex-1 overflow-hidden">
                 {/* Main Writing Area */}
                 <div className="flex-1 overflow-y-auto">
-                    <form id="post-form" action={createPostAction} className="max-w-3xl mx-auto py-12 px-8">
+                    <form id="post-form" action={action} className="max-w-3xl mx-auto py-12 px-8">
                         <div className="mb-8">
                             <input
                                 type="file"
@@ -302,6 +313,12 @@ export default function Editor({ initialPost }: EditorProps) {
                             defaultValue={initialPost?.title}
                             placeholder="Post Title"
                             required
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    editor?.chain().focus().run();
+                                }
+                            }}
                             className="w-full text-5xl font-extrabold text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-700 border-none focus:outline-none focus:ring-0 bg-transparent p-0 mb-8"
                         />
 
@@ -390,20 +407,18 @@ export default function Editor({ initialPost }: EditorProps) {
                                 />
                             </div>
 
-                            <div>
-                                <label htmlFor="tags" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                    Tags
-                                </label>
-                                <input
-                                    type="text"
-                                    name="tags"
-                                    defaultValue={initialPost?.tags.join(', ')}
-                                    form="post-form"
-                                    placeholder="news, tutorial"
-                                    className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-                                />
-                                <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
-                            </div>
+                            {mode === 'post' && (
+                                <div>
+                                    <label htmlFor="tags" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                                        Tags
+                                    </label>
+                                    <TagInput
+                                        existingTags={existingTags}
+                                        initialSelected={initialPost?.tags}
+                                        name="tags"
+                                    />
+                                </div>
+                            )}
 
                             <div>
                                 <label htmlFor="feature_image" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">

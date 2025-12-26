@@ -16,7 +16,7 @@ export default async function Home() {
         </p>
       </section>
 
-      <div className="grid gap-10 sm:grid-cols-1 lg:grid-cols-1">
+      <div className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}

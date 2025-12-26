@@ -1,7 +1,8 @@
 import { isAuthenticated } from '@/lib/auth';
 import { redirect, notFound } from 'next/navigation';
 import Editor from '@/components/Editor';
-import { getPost } from '@/lib/data';
+import { getPost, getTags } from '@/lib/data';
+import { createPostAction, deletePostAction } from '@/app/actions';
 
 interface EditPostPageProps {
     params: Promise<{
@@ -23,5 +24,16 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
         notFound();
     }
 
-    return <Editor initialPost={post} />;
+    const existingTags = await getTags();
+
+    return (
+        <Editor
+            initialPost={post}
+            existingTags={existingTags}
+            action={createPostAction}
+            deleteAction={deletePostAction}
+        />
+    );
 }
+
+

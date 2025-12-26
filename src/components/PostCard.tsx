@@ -8,7 +8,7 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
     return (
-        <article className="group relative flex flex-col space-y-2">
+        <article className="group relative flex flex-col space-y-2 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
             {post.feature_image && (
                 <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-4">
                     <img
@@ -26,15 +26,20 @@ export default function PostCard({ post }: PostCardProps) {
                 <span>•</span>
                 <div className="flex gap-1">
                     {post.tags.map(tag => (
-                        <span key={tag} className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                        <Link
+                            key={tag}
+                            href={`/tags/${encodeURIComponent(tag)}`}
+                            className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full hover:bg-[var(--accent-primary,#3b82f6)] hover:text-white transition-colors cursor-pointer text-gray-700 dark:text-gray-300 relative z-10"
+                        >
                             {tag}
-                        </span>
+                        </Link>
                     ))}
                 </div>
+
             </div>
 
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">
-                <Link href={`/blog/${post.slug}`}>
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 transition-colors">
+                <Link className='text-gray-900 dark:text-gray-100' href={`/blog/${post.slug}`}>
                     <span className="absolute inset-0" />
                     {post.title}
                 </Link>
@@ -44,9 +49,10 @@ export default function PostCard({ post }: PostCardProps) {
                 {post.excerpt || post.content.replace(/<[^>]*>?/gm, '').slice(0, 300) + (post.content.length > 300 ? '...' : '')}
             </p>
 
-            <div className="text-sm font-medium text-blue-600 dark:text-blue-400 pt-2">
+            <div className="text-sm font-medium text-gray-900 dark:text-gray-100 pt-2">
                 Read more →
             </div>
+
         </article>
     );
 }

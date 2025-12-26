@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "init-db": "tsx src/scripts/init-db.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -19,7 +20,9 @@
     "@tiptap/react": "^3.13.0",
     "@tiptap/starter-kit": "^3.13.0",
     "@vercel/blob": "^2.0.0",
+    "adm-zip": "^0.5.16",
     "date-fns": "^4.1.0",
+    "handlebars": "^4.7.8",
     "lucide-react": "^0.556.0",
     "next": "16.0.8",
     "react": "19.2.1",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

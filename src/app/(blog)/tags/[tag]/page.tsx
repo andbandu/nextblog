@@ -11,9 +11,10 @@ interface TagPageProps {
 export async function generateStaticParams() {
     const tags = await getTags();
     return tags.map((tag) => ({
-        tag: tag,
+        tag: tag.name,
     }));
 }
+
 
 export default async function TagPage({ params }: TagPageProps) {
     const { tag } = await params;
@@ -28,8 +29,9 @@ export default async function TagPage({ params }: TagPageProps) {
         <div className="space-y-12">
             <header>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">
-                    Posts tagged with <span className="text-blue-600">#{decodedTag}</span>
+                    Posts tagged with <span className="text-[var(--accent-primary,#3b82f6)]">#{decodedTag}</span>
                 </h1>
+
                 <p className="text-gray-600 dark:text-gray-400">
                     Found {posts.length} post{posts.length === 1 ? "" : "s"}.
                 </p>
