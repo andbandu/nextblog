@@ -39,7 +39,7 @@ export default function PostCard({ post }: PostCardProps) {
             </div>
 
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 transition-colors">
-                <Link className='text-gray-900 dark:text-gray-100' href={`/blog/${post.slug}`}>
+                <Link className='text-gray-900 dark:text-gray-100' href={`/${post.slug}`}>
                     <span className="absolute inset-0" />
                     {post.title}
                 </Link>

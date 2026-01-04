@@ -4,6 +4,9 @@ import { getSetting, NavLink, SiteInfo } from '@/lib/data';
 import NavigationManager from '../../../_components/NavigationManager';
 import BrandingManager from '../../../_components/BrandingManager';
 import SiteInfoManager from '../../../_components/SiteInfoManager';
+import IntegrationsManager from '../../../_components/IntegrationsManager';
+import { APIKey } from '@/lib/api-auth';
+import { updateApiKeysAction } from '@/app/actions';
 
 export default async function AdminSettingsPage() {
     const isLoggedIn = await isAuthenticated();
@@ -16,6 +19,7 @@ export default async function AdminSettingsPage() {
     const secondaryLinks = await getSetting<NavLink[]>('secondary_navigation') || [];
     const siteDesign = await getSetting<{ logo_url: string; accent_color: string }>('site_design') || { logo_url: '', accent_color: '#3b82f6' };
     const siteInfo = await getSetting<SiteInfo>('site_info') || { title: 'My Blog', description: 'A blog about everything.' };
+    const apiKeys = await getSetting<APIKey[]>('api_keys') || [];
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -39,6 +43,11 @@ export default async function AdminSettingsPage() {
                     title="Secondary Navigation (Footer)"
                     settingKey="secondary_navigation"
                     initialLinks={secondaryLinks}
+                />
+
+                <IntegrationsManager
+                    initialKeys={apiKeys}
+                    onSave={updateApiKeysAction}
                 />
             </div>
         </div>

@@ -106,6 +106,10 @@ export async function updateSiteInfoAction(siteInfo: { title: string; descriptio
     revalidatePath('/');
 }
 
+export async function updateApiKeysAction(keys: any[]) {
+    await import('@/lib/data').then(mod => mod.saveSetting('api_keys', keys));
+}
+
 
 
 
